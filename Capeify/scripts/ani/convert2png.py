@@ -16,6 +16,4 @@ def convert2pngs(file):
 
         pngs.append(png)
 
-    pngs = [png.getvalue() for png in pngs]
-
     return pngs
