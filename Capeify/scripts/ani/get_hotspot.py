@@ -1,4 +1,5 @@
 import struct
+from ani_file import ani_file
 
 
 def get_cur_hotspot(data):
@@ -24,3 +25,18 @@ def get_cur_hotspot(data):
     hotspot_x, hotspot_y = max_sizes_hotspot[1], max_sizes_hotspot[2]
 
     return hotspot_x, hotspot_y
+
+
+def get_hotspot(file):
+    ani = ani_file.open(file, "r")
+
+    frames = ani.getframesdata()
+
+    hotspots = [get_cur_hotspot(frame) for frame in frames]
+
+    hotspot_xs = [hotspot[0] for hotspot in hotspots]
+    hotspot_ys = [hotspot[1] for hotspot in hotspots]
+
+    avg_hotspot = (sum(hotspot_xs) / len(hotspot_xs), sum(hotspot_ys) / len(hotspot_ys))
+
+    return avg_hotspot
