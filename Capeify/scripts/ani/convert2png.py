@@ -20,7 +20,11 @@ def convert2pngs(file):
     return pngs
 
 
-def convert2png(pngs):
+def convert2png(file, pngs):
+    ani = ani_file.open(file)
+    seq = ani.getseq()
+
+    pngs = [pngs[i] for i in seq]
     pngs = [Image.open(png) for png in pngs]
 
     png_height_sum = sum([png.height for png in pngs])
