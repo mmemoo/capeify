@@ -35,3 +35,26 @@ def create_cursor(
     data_.text = str(data)
 
     return template
+
+
+def create_cape(author, capename, cursors, identifier):
+    template = etree.parse("templates/cape_template.cape")
+    template = template.getroot()
+
+    dict_ = template[0]
+
+    author_ = dict_[1]
+    author_.text = str(author)
+
+    capename_ = dict_[3]
+    capename_.text = str(capename)
+
+    identifier_ = dict_[13]
+    identifier_.text = str(identifier)
+
+    cursors_ = dict_[9]
+    for cursor in cursors:
+        cursors_.append(cursor[0])
+        cursors_.append(cursor[0])
+
+    return template
