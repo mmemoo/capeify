@@ -2,10 +2,13 @@ from lxml import etree
 
 
 def create_cursor(
-    framecount, frameduration, hotspotx, hotspoty, pointshigh, pointswide, data
+    cursor, framecount, frameduration, hotspotx, hotspoty, pointshigh, pointswide, data
 ):
-    template = etree.parse("Capeify/templates/cursor_template.cape")
+    template = etree.parse("templates/cursor_template.cape")
     template = template.getroot()
+
+    key_ = template[0]
+    key_.text = str(cursor)
 
     dict_ = template[1]
 
