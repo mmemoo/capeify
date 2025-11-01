@@ -7,6 +7,7 @@ def read_strings(path):
 
             if in_strings and line.strip() != "":
                 key, val = line.split("=")
+                key, val = key.strip(), val.strip()
 
                 strings[key] = val[1:-1]
 
