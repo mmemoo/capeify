@@ -1,0 +1,22 @@
+<all>
+	<dict>
+		<key>Author</key>
+		<string> </string>
+		<key>CapeName</key>
+		<string> </string>
+		<key>CapeVersion</key>
+		<real>1</real>
+		<key>Cloud</key>
+		<false/>
+		<key>Cursors</key>
+		<dict/>
+		<key>HiDPI</key>
+		<false/>
+		<key>Identifier</key>
+		<string> </string>
+		<key>MinimumVersion</key>
+		<real>2</real>
+		<key>Version</key>
+		<real>2</real>
+	</dict>
+</all>

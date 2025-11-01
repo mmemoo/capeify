@@ -1,0 +1,19 @@
+<all>
+	<key> </key>
+	<dict>
+		<key>FrameCount</key>
+		<integer> </integer>
+		<key>FrameDuration</key>
+		<real> </real>
+		<key>HotSpotX</key>
+		<real> </real>
+		<key>HotSpotY</key>
+		<real> </real>
+		<key>PointsHigh</key>
+		<real> </real>
+		<key>PointsWide</key>
+		<real> </real>
+		<key>Representations</key>
+		<array><data> </data></array>
+	</dict>
+</all>
