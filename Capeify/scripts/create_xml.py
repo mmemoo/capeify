@@ -39,9 +39,8 @@ def create_cursor(
 
 def create_cape(author, capename, cursors, identifier):
     template = etree.parse("templates/cape_template.cape")
-    template = template.getroot()
 
-    dict_ = template[0]
+    dict_ = template.getroot()
 
     author_ = dict_[1]
     author_.text = str(author)
@@ -57,6 +56,6 @@ def create_cape(author, capename, cursors, identifier):
         cursors_.append(cursor[0])
         cursors_.append(cursor[0])
 
-    template = template.getroottree()
+    template = dict_.getroottree()
 
     return template
