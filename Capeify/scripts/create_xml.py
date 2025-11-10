@@ -57,4 +57,6 @@ def create_cape(author, capename, cursors, identifier):
         cursors_.append(cursor[0])
         cursors_.append(cursor[0])
 
+    template = template.getroottree()
+
     return template
