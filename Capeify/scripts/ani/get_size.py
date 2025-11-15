@@ -1,13 +1,15 @@
 import struct
 from ani_file import ani_file
+from PIL import Image
+from io import BytesIO
 
 
 def get_size(file):
     ani = ani_file.open(file, "r")
 
     curs = ani.getframesdata()
-    png_data = curs[0]
+    cur = Image.open(BytesIO(curs[0]))
 
-    width, height = struct.unpack(">II", png_data[16:24])
+    w, h = cur.size
 
-    return width, height
+    return w, h
