@@ -1,3 +1,7 @@
+import csv
+from os import read
+
+
 def read_strings(path):
     with open(path, "r") as f:
         strings = {}
@@ -44,3 +48,21 @@ def read_defaultInstall(path):
                 in_defaultInstall = True
 
     return dict_
+
+
+def read_reg(path, reg_sect):
+    in_reg = False
+    with open(path, "r") as f:
+        for line in f.readlines():
+            if in_reg and line.strip() != "":
+                read_csv = csv.reader([line.strip()])
+                read_csv = next(read_csv)
+                reg_str = read_csv[-1]
+
+                curs = reg_str.split(",")
+                curs = [cur.split("\\")[-1][1:-1] for cur in curs]
+
+                return curs
+
+            if line.strip() == f"[{reg_sect}]":
+                in_reg = True
