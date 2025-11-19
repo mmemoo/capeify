@@ -115,12 +115,3 @@ def convert(args):
         cur_pack_name + "_author", cur_pack_name, cursors, cur_pack_name + "_identifier"
     )
     cape.write(args.out, pretty_print=True)
-
-
-class abc:
-    path = "/Users/mehmetm61611/Desktop/Windows 7 Cursor/"
-    inf_file = "install.inf"
-    out = "fksafkdas.cape"
-
-
-convert(abc)
