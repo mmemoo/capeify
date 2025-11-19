@@ -9,7 +9,7 @@ dependencies = ["Wand","Pillow","lxml","ani_file"]
 description = "Win cursor package to .cape file converter"
 readme = "README.md"
 authors = [{name = "mmemoo"}]
-requires_python = ">=3.12.0"
+requires-python = ">=3.12.0"
 
 [project.scripts]
 capeify = "Capeify.main:main"
