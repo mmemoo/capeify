@@ -31,7 +31,7 @@ def convert2png(file, pngs):
     png_height_sum = sum([png.height for png in pngs])
     png_max_width = max([png.width for png in pngs])
 
-    final_png = Image.new("RGB", (png_max_width, png_height_sum))
+    final_png = Image.new("RGBA", (png_max_width, png_height_sum))
 
     y = 0
     for png in pngs:
