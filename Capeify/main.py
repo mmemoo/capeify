@@ -14,6 +14,8 @@ from base64 import b64encode
 
 import argparse
 
+from time import time
+
 win2mac_cur = {
     0: ["com.apple.coregraphics.Arrow"],
     1: ["com.apple.cursor.40"],
@@ -50,6 +52,8 @@ win2mac_cur = {
 
 
 def convert(args):
+    start = time()
+
     inf_file_path = f"{args.path}/{args.inf_file}"
 
     strings = read_inf.read_strings(inf_file_path)
@@ -111,12 +115,16 @@ def convert(args):
                         )
                     )
 
+        print(f'CAPEIFY $$ Cursor "{win_cur}" done.')
+
     cur_pack_name = args.path.split("/")[-1]
 
     cape = create_xml.create_cape(
         cur_pack_name + "_author", cur_pack_name, cursors, cur_pack_name + "_identifier"
     )
     cape.write(args.out, pretty_print=True)
+
+    print(f"CAPEIFY $$ Conversion done! Time elapsed : {time() - start} seconds.")
 
 
 def main():
