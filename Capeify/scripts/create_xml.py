@@ -1,10 +1,14 @@
 from lxml import etree
+import os
+
+templates_dir = os.path.abspath(__file__)
+templates_dir = os.path.dirname(os.path.dirname(templates_dir))
 
 
 def create_cursor(
     cursor, framecount, frameduration, hotspotx, hotspoty, pointshigh, pointswide, data
 ):
-    template = etree.parse("Capeify/templates/cursor_template.cape")
+    template = etree.parse(templates_dir + "/templates/cursor_template.cape")
     template = template.getroot()
 
     key_ = template[0]
@@ -38,7 +42,7 @@ def create_cursor(
 
 
 def create_cape(author, capename, cursors, identifier):
-    template = etree.parse("Capeify/templates/cape_template.cape")
+    template = etree.parse(templates_dir + "/templates/cape_template.cape")
 
     dict_ = template.getroot()
 
