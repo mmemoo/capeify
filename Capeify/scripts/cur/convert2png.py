@@ -1,15 +1,12 @@
-from PIL import Image
-import io
+from wand.image import Image
 
 
 def convert_cur2png(cur_file):
-    with open(cur_file, "rb") as f:
-        cur_bytes = f.read()
-        cur_bytes = io.BytesIO(cur_bytes)
+    with Image(filename=cur_file) as cur:
+        largest = max(cur.sequence, key=lambda im: im.width * im.height)
 
-    cur = Image.open(cur_bytes)
+        with Image(image=largest) as img:
+            img.format = "png"
+            png_data = img.make_blob()
 
-    png = io.BytesIO()
-    cur.save(png, "PNG")
-
-    return png.getvalue()
+    return png_data
