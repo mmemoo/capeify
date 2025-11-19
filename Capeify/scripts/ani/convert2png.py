@@ -1,21 +1,22 @@
-from typing import final
 from ani_file import ani_file
-from PIL import Image
+from wand.image import Image as WImage
 from io import BytesIO
+from PIL import Image
 
 
 def convert2pngs(file):
     ani = ani_file.open(file, "r")
 
     curs = ani.getframesdata()
-    curs = [Image.open(BytesIO(cur)) for cur in curs]
 
     pngs = []
     for cur in curs:
-        png = BytesIO()
-        cur.save(png, "PNG")
+        with WImage(blob=cur, format="cur") as img:
+            img.format = "png"
+            png_data = img.make_blob()
 
-        pngs.append(png)
+        png_data = BytesIO(png_data)
+        pngs.append(png_data)
 
     return pngs
 
