@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "capeify"
+version = "1.0.0"
+dependencies = ["Wand","Pillow","lxml","ani_file"]
+description = "Win cursor package to .cape file converter"
+readme = "README.md"
+authors = [{name = "mmemoo"}]
+requires_python = ">=3.12.0"
+
+[project.scripts]
+capeify = "Capeify.main:main"
+
+[tool.setuptools]
+include-package-data = true
