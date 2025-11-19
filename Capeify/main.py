@@ -1,7 +1,16 @@
-import .scripts.ani as ani
-import .scripts.cur as cur
-import .scripts.create_xml as create_xml
-import .scripts.read_inf as read_inf
+from scripts.cur import convert2png as c_convert2png
+from scripts.cur import get_hotspot as c_get_hotspot
+from scripts.cur import get_size as c_get_size
+
+from scripts.ani import convert2png as a_convert2png
+from scripts.ani import get_hotspot as a_get_hotspot
+from scripts.ani import get_frame_duration as a_get_frame_duration
+from scripts.ani import get_size as a_get_size
+
+from scripts import create_xml
+from scripts import read_inf
+
+from base64 import b64encode
 
 win2mac_cur = {
     0: ["com.apple.coregraphics.Arrow"],
@@ -36,3 +45,82 @@ win2mac_cur = {
     15: None,
     16: None,
 }
+
+
+def convert(args):
+    inf_file_path = f"{args.path}/{args.inf_file}"
+
+    strings = read_inf.read_strings(inf_file_path)
+    strings = {key.lower(): val for key, val in strings.items()}
+
+    reg_sect = read_inf.read_defaultInstall(inf_file_path)["AddReg"]
+    reg = read_inf.read_reg(inf_file_path, reg_sect)
+
+    cursors = []
+    for idx, win_cur in enumerate(reg):
+        if win2mac_cur[idx]:
+            path = f"{args.path}/{strings[win_cur.lower()]}"
+            ext = strings[win_cur.lower()][-3:]
+            if ext == "cur":
+                data = c_convert2png.convert_cur2png(path)
+
+                data_enc = b64encode(data)
+                data_enc = data_enc.decode()
+
+                hs_x, hs_y = c_get_hotspot.get_hotspot(path)
+                w, h = c_get_size.get_size(data)
+
+                for cur_name in win2mac_cur[idx]:
+                    cursors.append(
+                        create_xml.create_cursor(
+                            cur_name,
+                            1,
+                            1,
+                            hs_x,
+                            hs_y,
+                            h,
+                            w,
+                            data_enc,
+                        )
+                    )
+
+            if ext == "ani":
+                pngs = a_convert2png.convert2pngs(path)
+
+                data = a_convert2png.convert2png(path, pngs)
+                data_enc = b64encode(data)
+                data_enc = data_enc.decode()
+
+                hs_x, hs_y = a_get_hotspot.get_hotspot(path)
+                w, h = a_get_size.get_size(path)
+                frame_dur = a_get_frame_duration.get_frame_duration(path)
+
+                for cur_name in win2mac_cur[idx]:
+                    cursors.append(
+                        create_xml.create_cursor(
+                            cur_name,
+                            len(pngs),
+                            frame_dur,
+                            hs_x,
+                            hs_y,
+                            h,
+                            w,
+                            data_enc,
+                        )
+                    )
+
+    cur_pack_name = args.path.split("/")[-1]
+
+    cape = create_xml.create_cape(
+        cur_pack_name + "_author", cur_pack_name, cursors, cur_pack_name + "_identifier"
+    )
+    cape.write(args.out, pretty_print=True)
+
+
+class abc:
+    path = "/Users/mehmetm61611/Desktop/Windows 7 Cursor/"
+    inf_file = "install.inf"
+    out = "fksafkdas.cape"
+
+
+convert(abc)
