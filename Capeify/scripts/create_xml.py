@@ -4,7 +4,7 @@ from lxml import etree
 def create_cursor(
     cursor, framecount, frameduration, hotspotx, hotspoty, pointshigh, pointswide, data
 ):
-    template = etree.parse("templates/cursor_template.cape")
+    template = etree.parse("Capeify/templates/cursor_template.cape")
     template = template.getroot()
 
     key_ = template[0]
@@ -38,7 +38,7 @@ def create_cursor(
 
 
 def create_cape(author, capename, cursors, identifier):
-    template = etree.parse("templates/cape_template.cape")
+    template = etree.parse("Capeify/templates/cape_template.cape")
 
     dict_ = template.getroot()
 
