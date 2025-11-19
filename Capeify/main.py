@@ -1,16 +1,18 @@
-from scripts.cur import convert2png as c_convert2png
-from scripts.cur import get_hotspot as c_get_hotspot
-from scripts.cur import get_size as c_get_size
+from Capeify.scripts.cur import convert2png as c_convert2png
+from Capeify.scripts.cur import get_hotspot as c_get_hotspot
+from Capeify.scripts.cur import get_size as c_get_size
 
-from scripts.ani import convert2png as a_convert2png
-from scripts.ani import get_hotspot as a_get_hotspot
-from scripts.ani import get_frame_duration as a_get_frame_duration
-from scripts.ani import get_size as a_get_size
+from Capeify.scripts.ani import convert2png as a_convert2png
+from Capeify.scripts.ani import get_hotspot as a_get_hotspot
+from Capeify.scripts.ani import get_frame_duration as a_get_frame_duration
+from Capeify.scripts.ani import get_size as a_get_size
 
-from scripts import create_xml
-from scripts import read_inf
+from Capeify.scripts import create_xml
+from Capeify.scripts import read_inf
 
 from base64 import b64encode
+
+import argparse
 
 win2mac_cur = {
     0: ["com.apple.coregraphics.Arrow"],
@@ -115,3 +117,38 @@ def convert(args):
         cur_pack_name + "_author", cur_pack_name, cursors, cur_pack_name + "_identifier"
     )
     cape.write(args.out, pretty_print=True)
+
+
+def main():
+    parser = argparse.ArgumentParser(prog="capeify", description="Capeify")
+
+    subparsers = parser.add_subparsers(title="commands")
+
+    convert_parser = subparsers.add_parser(
+        "convert", help="Convert a windows cursor package to a cape file."
+    )
+
+    convert_parser.add_argument(
+        "--path",
+        required=True,
+        help="Path to the windows cursor package. Should be absolute.",
+    )
+
+    convert_parser.add_argument(
+        "--inf-file",
+        required=True,
+        help="The name of the inf file in the specified path.",
+    )
+
+    convert_parser.add_argument(
+        "--out", required=True, help="The path of the out file."
+    )
+
+    convert_parser.set_defaults(func=convert)
+
+    args = parser.parse_args()
+
+    if hasattr(args, "func"):
+        args.func(args)
+    else:
+        parser.print_help()
