@@ -10,13 +10,13 @@
 
 To use this tool you need Imagemagick, download it following the guide according to your OS :
 
-Debian/Ubuntu : https://docs.wand-py.org/en/0.6.2/guide/install.html#install-imagemagick-debian
+**Debian/Ubuntu** : https://docs.wand-py.org/en/0.6.2/guide/install.html#install-imagemagick-debian
 
-Fedora/CentOS : https://docs.wand-py.org/en/0.6.2/guide/install.html#install-imagemagick-redhat
+**Fedora/CentOS** : https://docs.wand-py.org/en/0.6.2/guide/install.html#install-imagemagick-redhat
 
-MacOS : https://docs.wand-py.org/en/0.6.2/guide/install.html#install-imagemagick-mac
+**MacOS** : https://docs.wand-py.org/en/0.6.2/guide/install.html#install-imagemagick-mac
 
-Windows : https://docs.wand-py.org/en/0.6.2/guide/install.html#install-imagemagick-windows
+**Windows** : https://docs.wand-py.org/en/0.6.2/guide/install.html#install-imagemagick-windows
 
 **Capeify**
 
