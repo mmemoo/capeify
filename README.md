@@ -6,6 +6,8 @@
 
 # Downloading
 
+</br>
+
 **Imagemagick**
 
 To use this tool you need Imagemagick, download it following the guide according to your OS :
@@ -17,6 +19,8 @@ To use this tool you need Imagemagick, download it following the guide according
 **MacOS** : https://docs.wand-py.org/en/0.6.2/guide/install.html#install-imagemagick-mac
 
 **Windows** : https://docs.wand-py.org/en/0.6.2/guide/install.html#install-imagemagick-windows
+
+</br>
 
 **Capeify**
 
