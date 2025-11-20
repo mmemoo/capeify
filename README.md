@@ -1,7 +1,7 @@
 <h1 align="center">capeify</h1>
 <p align="center">A tool to convert Windows cursor packs to Mousecape capes</p>
 <p align="center">
-<a href="https://github.com/mmemoo/capeify"><img width="400" alt="capeify logo" src="logo.png"></a></br>
+<a href="https://github.com/mmemoo/capeify"><img width="300" alt="capeify logo" src="logo.png"></a></br>
 </p>
 
 # Downloading
