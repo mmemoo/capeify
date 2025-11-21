@@ -45,3 +45,9 @@ After that a ready cape file template is filled with those data and its ready to
 To contribute to this project, create issues telling me if there are any problems like if a Win cursor name is translated into the wrong MacOS identifier or if a identifier is missing,if a cursors hotspot is wrong etc.
 
 Also you can recommend features to contribute and further develop this project.
+
+# TODO
+- [x] Fix the pillow version in pyproject.toml
+- [ ] Fix the issue with .ani files caused by the mousecape frame count limit 
+- [ ] Fix the false frame duration issue with .ani files
+- [ ] Add cape to windows cursor pack conversion
