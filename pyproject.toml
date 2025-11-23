@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "capeify"
-version = "1.0.3"
+version = "1.0.4"
 dependencies = ["Wand","Pillow ==9.5.0","lxml","ani_file"]
 description = "Win cursor package to .cape file converter"
 readme = "README.md"
