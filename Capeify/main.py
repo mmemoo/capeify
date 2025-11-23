@@ -93,7 +93,7 @@ def convert(args):
             if ext == "ani":
                 pngs = a_convert2png.convert2pngs(path)
 
-                data = a_convert2png.convert2png(path, pngs)
+                data, frame_count = a_convert2png.convert2png(path, pngs)
                 data_enc = b64encode(data)
                 data_enc = data_enc.decode()
 
@@ -105,7 +105,7 @@ def convert(args):
                     cursors.append(
                         create_xml.create_cursor(
                             cur_name,
-                            len(pngs),
+                            frame_count,
                             frame_dur,
                             hs_x,
                             hs_y,
