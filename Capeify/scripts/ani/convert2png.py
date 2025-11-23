@@ -28,7 +28,11 @@ def convert2png(file, pngs):
     pngs = [pngs[i] for i in seq]
     pngs = [Image.open(png) for png in pngs]
 
-    png_height_sum = sum([png.height for png in pngs])
+    png_height_list = [png.height for png in pngs]
+
+    png_height_sum = sum(png_height_list)
+
+    png_max_height = max(png_height_list)
     png_max_width = max([png.width for png in pngs])
 
     final_png = Image.new("RGBA", (png_max_width, png_height_sum))
@@ -37,7 +41,7 @@ def convert2png(file, pngs):
     for png in pngs:
         final_png.paste(png, (0, y))
 
-        y += png.height
+        y += png_max_height
 
     png = BytesIO()
     final_png.save(png, "PNG")
