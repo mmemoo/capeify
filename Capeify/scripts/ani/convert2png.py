@@ -47,4 +47,4 @@ def convert2png(file, pngs):
     final_png.save(png, "PNG")
     png = png.getvalue()
 
-    return png
+    return png, len(seq)
