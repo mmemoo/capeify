@@ -93,19 +93,23 @@ def convert(args):
             if ext == "ani":
                 pngs = a_convert2png.convert2pngs(path)
 
-                data, frame_count = a_convert2png.convert2png(path, pngs)
+                data, real_frame_count = a_convert2png.convert2png(path, pngs)
+                lowered_frame_count = min(real_frame_count, 24)
+
                 data_enc = b64encode(data)
                 data_enc = data_enc.decode()
 
                 hs_x, hs_y = a_get_hotspot.get_hotspot(path)
                 w, h = a_get_size.get_size(path)
+
                 frame_dur = a_get_frame_duration.get_frame_duration(path)
+                frame_dur = (frame_dur * real_frame_count) / lowered_frame_count
 
                 for cur_name in win2mac_cur[idx]:
                     cursors.append(
                         create_xml.create_cursor(
                             cur_name,
-                            frame_count,
+                            lowered_frame_count,
                             frame_dur,
                             hs_x,
                             hs_y,
