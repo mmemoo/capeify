@@ -52,4 +52,5 @@ Also you can recommend features to contribute and further develop this project.
 - [x] Fix the issue caused by cur files in ani files having varying height
 - [x] Fix the issue with ani files caused by the wrong calculation of the frame count
 - [ ] Fix the false frame duration issue with .ani files
+- [ ] Fix issues caused by non-centered .cur and (possibly) .ani files
 - [ ] Add cape to windows cursor pack conversion
