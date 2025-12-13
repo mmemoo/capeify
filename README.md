@@ -53,4 +53,5 @@ Also you can recommend features to contribute and further develop this project.
 - [x] Fix the issue with ani files caused by the wrong calculation of the frame count
 - [ ] Fix the false frame duration issue with .ani files
 - [ ] Fix issues caused by non-centered .cur and (possibly) .ani files
+- [ ] Add min cursor size and cursor size capping
 - [ ] Add cape to windows cursor pack conversion
