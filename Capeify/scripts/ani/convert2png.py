@@ -1,5 +1,5 @@
 from os import pread
-from ani_file import ani_file
+from Capeify.ani_file import ani_file
 from wand.image import Image as WImage
 from io import BytesIO
 from PIL import Image

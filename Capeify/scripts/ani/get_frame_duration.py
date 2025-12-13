@@ -1,4 +1,4 @@
-from ani_file import ani_file
+from Capeify.ani_file import ani_file
 
 
 def get_frame_duration(file):

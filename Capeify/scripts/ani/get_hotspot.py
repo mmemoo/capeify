@@ -1,5 +1,5 @@
 import struct
-from ani_file import ani_file
+from Capeify.ani_file import ani_file
 
 
 def get_cur_hotspot(data):

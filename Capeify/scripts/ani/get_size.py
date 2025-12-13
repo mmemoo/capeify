@@ -1,5 +1,5 @@
 import struct
-from ani_file import ani_file
+from Capeify.ani_file import ani_file
 from PIL import Image
 from io import BytesIO
 
