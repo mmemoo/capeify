@@ -2,7 +2,7 @@ from chunk import Chunk
 
 # from PIL import Image
 from pathlib import Path
-from Iconolatry import *
+from Capeify.ani_file.Iconolatry import *
 import builtins
 import struct
 
@@ -427,4 +427,3 @@ def open(file, mode=None):
         return ani_write(file)
     else:
         raise Exception("Mode must be 'r', 'rb', 'w', or 'wb'")
-
