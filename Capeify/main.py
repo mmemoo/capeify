@@ -60,6 +60,7 @@ def convert(args):
     strings = {key.lower(): val for key, val in strings.items()}
 
     reg_sect = read_inf.read_defaultInstall(inf_file_path)["AddReg"]
+    reg_sect = reg_sect.split(",")[0]
     reg = read_inf.read_reg(inf_file_path, reg_sect)
 
     cursors = []
