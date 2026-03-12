@@ -63,11 +63,49 @@ def convert(args):
     reg_sect = reg_sect.split(",")[0]
     reg = read_inf.read_reg(inf_file_path, reg_sect)
 
+    if reg is None or (
+        isinstance(reg, list) and len(reg) > 0 and reg[0].startswith("%")
+    ):
+        reg = read_inf.read_reg_fallback(inf_file_path)
+
+    if reg is None:
+        print("Error: Could not parse cursor registry section from INF file")
+        return
+
+    win2mac_idx = {
+        "arrow": 0,
+        "help": 1,
+        "appstarting": 2,
+        "wait": 3,
+        "crosshair": 4,
+        "precisionhair": 4,
+        "ibeam": 5,
+        "nwpen": 6,
+        "no": 7,
+        "sizeall": 12,
+        "sizenesw": 11,
+        "sizens": 8,
+        "sizenwse": 10,
+        "sizewe": 9,
+        "uparrow": 13,
+        "hand": 14,
+        "person": 15,
+        "pin": 16,
+    }
+
+    is_dict_format = isinstance(reg, dict)
+
     cursors = []
-    for idx, win_cur in enumerate(reg):
-        if win2mac_cur[idx]:
-            path = f"{args.path}/{strings[win_cur.lower()]}"
-            ext = strings[win_cur.lower()][-3:]
+    if is_dict_format:
+        for win_key, win_cur in reg.items():
+            idx = win2mac_idx.get(win_key.lower())
+            if idx is None or not win2mac_cur[idx]:
+                continue
+            cur_str = strings.get(win_cur.lower())
+            if not cur_str:
+                continue
+            path = f"{args.path}/{cur_str}"
+            ext = cur_str[-3:]
             if ext == "cur":
                 data = c_convert2png.convert_cur2png(path)
 
@@ -122,6 +160,65 @@ def convert(args):
 
         print(f'CAPEIFY $$ Cursor "{win_cur}" done.')
 
+    else:
+        for idx, win_cur in enumerate(reg):
+            if win2mac_cur[idx]:
+                path = f"{args.path}/{strings[win_cur.lower()]}"
+                ext = strings[win_cur.lower()][-3:]
+                if ext == "cur":
+                    data = c_convert2png.convert_cur2png(path)
+
+                    data_enc = b64encode(data)
+                    data_enc = data_enc.decode()
+
+                    hs_x, hs_y = c_get_hotspot.get_hotspot(path)
+                    w, h = c_get_size.get_size(data)
+
+                    for cur_name in win2mac_cur[idx]:
+                        cursors.append(
+                            create_xml.create_cursor(
+                                cur_name,
+                                1,
+                                1,
+                                hs_x,
+                                hs_y,
+                                h,
+                                w,
+                                data_enc,
+                            )
+                        )
+
+                if ext == "ani":
+                    pngs = a_convert2png.convert2pngs(path)
+
+                    data, real_frame_count = a_convert2png.convert2png(path, pngs)
+                    lowered_frame_count = min(real_frame_count, 24)
+
+                    data_enc = b64encode(data)
+                    data_enc = data_enc.decode()
+
+                    hs_x, hs_y = a_get_hotspot.get_hotspot(path)
+                    w, h = a_get_size.get_size(path)
+
+                    frame_dur = a_get_frame_duration.get_frame_duration(path)
+                    frame_dur = (frame_dur * real_frame_count) / lowered_frame_count
+
+                    for cur_name in win2mac_cur[idx]:
+                        cursors.append(
+                            create_xml.create_cursor(
+                                cur_name,
+                                lowered_frame_count,
+                                frame_dur,
+                                hs_x,
+                                hs_y,
+                                h,
+                                w,
+                                data_enc,
+                            )
+                        )
+
+                print(f'CAPEIFY $$ Cursor "{win_cur}" done.')
+
     cur_pack_name = args.path.split("/")[-1]
 
     cape = create_xml.create_cape(
@@ -165,3 +262,7 @@ def main():
         args.func(args)
     else:
         parser.print_help()
+
+
+if __name__ == "__main__":
+    main()
