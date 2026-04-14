@@ -1,3 +1,4 @@
+from typing import NamedTuple
 from Capeify.scripts.cur import convert2png as c_convert2png
 from Capeify.scripts.cur import get_hotspot as c_get_hotspot
 from Capeify.scripts.cur import get_size as c_get_size
@@ -15,6 +16,7 @@ from base64 import b64encode
 import argparse
 
 from time import time
+from lxml import etree
 
 win2mac_cur = {
     "Arrow": ["com.apple.coregraphics.Arrow"],
@@ -51,10 +53,18 @@ win2mac_cur = {
 }
 
 
-def convert(args):
-    start = time()
+def convert_(path: str, inf_file: str, log: bool) -> etree:
+    """
+    converts given windows cursor pack to a cape file according to given args
 
-    inf_file_path = f"{args.path}/{args.inf_file}"
+    path : str -> path of the windows cursor pack
+    inf_file : str -> name of the .INF file to be used
+
+    log : bool -> bool to specify if the fn should log the progress
+
+    returns -> xml data of the cape file as a string
+    """
+    inf_file_path = f"{path}/{inf_file}"
 
     strings = read_inf.read_strings(inf_file_path)
     strings = {key.lower(): val for key, val in strings.items()}
@@ -73,15 +83,15 @@ def convert(args):
                 if win_cur[0] == "%" and win_cur[-1] == "%"
                 else win_cur
             )
-            path = f"{args.path}/{win_cur_file}"
+            file_path = f"{path}/{win_cur_file}"
             ext = win_cur_file[-3:]
             if ext == "cur":
-                data = c_convert2png.convert_cur2png(path)
+                data = c_convert2png.convert_cur2png(file_path)
 
                 data_enc = b64encode(data)
                 data_enc = data_enc.decode()
 
-                hs_x, hs_y = c_get_hotspot.get_hotspot(path)
+                hs_x, hs_y = c_get_hotspot.get_hotspot(file_path)
                 w, h = c_get_size.get_size(data)
 
                 for cur_name in win2mac_cur[win_cur_identifier]:
@@ -99,18 +109,18 @@ def convert(args):
                     )
 
             if ext == "ani":
-                pngs = a_convert2png.convert2pngs(path)
+                pngs = a_convert2png.convert2pngs(file_path)
 
-                data, real_frame_count = a_convert2png.convert2png(path, pngs)
+                data, real_frame_count = a_convert2png.convert2png(file_path, pngs)
                 lowered_frame_count = min(real_frame_count, 24)
 
                 data_enc = b64encode(data)
                 data_enc = data_enc.decode()
 
-                hs_x, hs_y = a_get_hotspot.get_hotspot(path)
-                w, h = a_get_size.get_size(path)
+                hs_x, hs_y = a_get_hotspot.get_hotspot(file_path)
+                w, h = a_get_size.get_size(file_path)
 
-                frame_dur = a_get_frame_duration.get_frame_duration(path)
+                frame_dur = a_get_frame_duration.get_frame_duration(file_path)
                 frame_dur = (frame_dur * real_frame_count) / lowered_frame_count
 
                 for cur_name in win2mac_cur[win_cur_identifier]:
@@ -127,14 +137,28 @@ def convert(args):
                         )
                     )
 
-            print(f"CAPEIFY $$ Cursor {win_cur_file} done.")
+            print(f"CAPEIFY $$ Cursor {win_cur_file} done.") if log else None
 
-    cur_pack_name = args.path.split("/")[-1]
+    cur_pack_name = path.split("/")[-1]
 
     cape = create_xml.create_cape(
         cur_pack_name + "_author", cur_pack_name, cursors, cur_pack_name + "_identifier"
     )
-    cape.write(args.out, pretty_print=True)
+
+    return cape
+
+
+def convert(args: NamedTuple) -> None:
+    """
+    the main fn to be passed to the parser
+
+    args : NamedTuple -> args input by the user
+    """
+
+    start = time()
+
+    xml = convert_(args.path, args.inf_file, True)
+    xml.write(args.out, pretty_print=True)
 
     print(f"CAPEIFY $$ Conversion done! Time elapsed : {(time() - start):.4f} seconds.")
 
