@@ -64,7 +64,8 @@ def read_reg(path: str, reg_header: str) -> str:
             elif line.strip()[0] == "[" and in_reg:
                 return reg_raw
             elif in_reg:
-                reg_raw += line
+                if not line.strip()[0] == ";":
+                    reg_raw += line
 
 
 idx_2_win_cur_identifier = {
