@@ -77,7 +77,7 @@ def convert_(path: str, inf_file: str, log: bool) -> etree:
 
     cursors = []
     for win_cur_identifier, win_cur in parsed_reg.items():
-        if win_cur.split() == "":
+        if win_cur.strip() == "":
             continue
         if win2mac_cur[win_cur_identifier]:
             win_cur_file = (
