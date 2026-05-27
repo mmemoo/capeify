@@ -49,7 +49,6 @@ You can also contribute to this project idea and feedback wise by create issues 
 Also you can recommend features to contribute and further develop this project.
 
 # TODO
-- [x] Fix the pillow version in pyproject.toml
 - [x] Fix the issue with .ani files caused by the mousecape frame count limit
 - [x] Fix the issue caused by cur files in ani files having varying height
 - [x] Fix the issue with ani files caused by the wrong calculation of the frame count
