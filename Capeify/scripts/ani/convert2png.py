@@ -1,6 +1,5 @@
 from os import pread
 from Capeify.ani_file import ani_file
-from wand.image import Image as WImage
 from io import BytesIO
 from PIL import Image
 
@@ -12,11 +11,11 @@ def convert2pngs(file):
 
     pngs = []
     for cur in curs:
-        with WImage(blob=cur, format="cur") as img:
-            img.format = "png"
-            png_data = img.make_blob()
+        png_data = BytesIO()
 
-        png_data = BytesIO(png_data)
+        img = Image.open(BytesIO(cur))
+        img.save(png_data, "png")
+
         pngs.append(png_data)
 
     return pngs

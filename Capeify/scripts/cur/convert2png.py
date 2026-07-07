@@ -1,12 +1,15 @@
-from wand.image import Image
+from PIL import Image, BmpImagePlugin
+from io import BytesIO
+
+BmpImagePlugin.USE_RAW_ALPHA = True
 
 
 def convert_cur2png(cur_file):
-    with Image(filename=cur_file) as cur:
-        largest = max(cur.sequence, key=lambda im: im.width * im.height)
+    png_data = BytesIO()
 
-        with Image(image=largest) as img:
-            img.format = "png"
-            png_data = img.make_blob()
+    img = Image.open(cur_file)
+    img.save(png_data, "png")
+
+    png_data = png_data.getvalue()
 
     return png_data
